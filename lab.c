@@ -151,3 +151,109 @@ void alteracao(lista_de_tarefas *tarefas) {
   }
 }
 
+void Filtro_Prioridade(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    int prioridade;
+    printf("Digite a prioridade desejada: ");
+    scanf("%d", &prioridade);
+
+    printf("Tarefas com prioridade %d:\n", prioridade);
+    int encontradas = 0;
+
+    for (int i = 0; i < numTarefas; i++) {
+      if (tarefas[i].prioridade == prioridade) {
+        printf("Tarefa %d:\n", i + 1);
+        printf("Descricao: %s\n", tarefas[i].descricao);
+        printf("Categoria: %s\n", tarefas[i].categoria);
+        printf("Prioridade: %d\n\n", tarefas[i].prioridade);
+        encontradas = 1;
+      }
+    }
+
+    if (!encontradas) {
+      printf("Nenhuma tarefa encontrada com a prioridade recebida %d.\n",
+             prioridade);
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para filtrar por prioridade.\n");
+  }
+}
+
+void Filtro_Estado(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    char estado[20];
+    printf("Digite qual o estado desejado: ");
+    scanf(" %[^\n]s", estado);
+
+    printf("Tarefas com estado %s:\n", estado);
+    int encontradas = 0;
+
+    for (int i = 0; i < numTarefas; i++) {
+      if (strcmp(tarefas[i].estado, estado) == 0) {
+        printf("Tarefa %d:\n", i + 1);
+        printf("Descricao: %s\n", tarefas[i].descricao);
+        printf("Categoria: %s\n", tarefas[i].categoria);
+        printf("Prioridade: %d\n", tarefas[i].prioridade);
+        printf("Estado: %s\n\n", tarefas[i].estado);
+        encontradas = 1;
+      }
+    }
+
+    if (!encontradas) {
+      printf("Nenhuma tarefa encontrada com o estado %s.\n", estado);
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para filtrar por estado.\n");
+  }
+}
+
+// Função de comparação para qsort
+int compararPrioridade(const void *a, const void *b) {
+  return ((lista_de_tarefas *)b)->prioridade -
+         ((lista_de_tarefas *)a)->prioridade;
+}
+
+// Funcao para filtrar tarefas por categorias e ordenar por prioridade
+
+void filtrarCategoriaOrdenada(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    char categoria[50];
+    printf("Digite a categoria desejada: ");
+    scanf(" %[^\n]s", categoria);
+
+    int encontradas = 0;
+    lista_de_tarefas tarefasFiltradas[100];
+
+    // Filtra tarefas por categoria
+    for (int i = 0; i < numTarefas; i++) {
+      if (strcmp(tarefas[i].categoria, categoria) == 0) {
+        tarefasFiltradas[encontradas++] = tarefas[i];
+      }
+    }
+
+    // Ordenar Tarefas Por prioridades
+    qsort(tarefasFiltradas, encontradas, sizeof(lista_de_tarefas),
+          compararPrioridade);
+
+    // Exibir tarefas filtradas e ordenadas
+    printf("Tarefas na categoria '%s', ordenadas por prioridade (da maior para "
+           "a menor):\n",
+           categoria);
+    for (int i = 0; i < encontradas; i++) {
+      printf("Tarefa %d:\n", i + 1);
+      printf("Descricao: %s\n", tarefasFiltradas[i].descricao);
+      printf("Categoria: %s\n", tarefasFiltradas[i].categoria);
+      printf("Prioridade: %d\n", tarefasFiltradas[i].prioridade);
+      printf("Estado: %s\n\n", tarefasFiltradas[i].estado);
+    }
+
+    if (!encontradas) {
+      printf("Nenhuma tarefa encontrada na categoria %s.\n", categoria);
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para filtrar por categoria.\n");
+  }
+}
