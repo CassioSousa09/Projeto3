@@ -69,3 +69,85 @@ int leitura_arquivo(lista_de_tarefas tarefas[], int maxTarefas) {
     }
   }
 }
+
+void listarT(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    printf("Lista de Tarefas:\n");
+    for (int i = 0; i < numTarefas; i++) {
+      printf("Tarefa %d:\n", i + 1);
+      printf("Descricao: %s\n", tarefas[i].descricao);
+      printf("Categoria: %s\n", tarefas[i].categoria);
+      printf("Prioridade: %d\n\n", tarefas[i].prioridade);
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas.\n");
+  }
+}
+
+void deletarT(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    int indice;
+    printf("Digite o numero da tarefa que deseja deletar: ");
+    scanf("%d", &indice);
+
+    if (indice >= 1 && indice <= numTarefas) {
+      for (int i = indice - 1; i < numTarefas - 1; i++) {
+        tarefas[i] = tarefas[i + 1];
+      }
+
+      numTarefas--;
+
+      printf("Tarefa deletada com sucesso!\n");
+    } else {
+      printf("Indice invalido. Por favor, insira um indice valido.\n");
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para deletar.\n");
+  }
+}
+
+void alteracao(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    int indice;
+    printf("Digite qual tarefa deseja alterar: ");
+    scanf("%d", &indice);
+
+    if (indice >= 1 && indice <= numTarefas) {
+      int opcao;
+      printf("Escolha o item a ser alterado:\n");
+      printf("1. Descricao\n");
+      printf("2. Categoria\n");
+      printf("3. Prioridade\n");
+      printf("Digite o numero da opcao: ");
+      scanf("%d", &opcao);
+
+      switch (opcao) {
+      case 1:
+        printf("Digite a nova descricao: ");
+        scanf(" %[^\n]s", tarefas[indice - 1].descricao);
+        break;
+      case 2:
+        printf("Digite a nova categoria: ");
+        scanf(" %[^\n]s", tarefas[indice - 1].categoria);
+        break;
+      case 3:
+        printf("Digite a nova prioridade: ");
+        scanf("%d", &tarefas[indice - 1].prioridade);
+        break;
+      default:
+        printf("Opcao invalida.\n");
+        return;
+      }
+
+      printf("Tarefa alterada com sucesso!\n");
+    } else {
+      printf("Indice nao identificado. Por favor, insira um indice valido.\n");
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para alterar.\n");
+  }
+}
+
