@@ -339,3 +339,101 @@ void exportarPorPrioridade(lista_de_tarefas *tarefas) {
     printf("Nao ha tarefas cadastradas para exportar por prioridade.\n");
   }
 }
+
+
+void exportarCto(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    char categoria[50];
+    printf("Digite a categoria desejada para exportar as tarefas!: ");
+    scanf(" %[^\n]s", categoria);
+
+    char nomeArquivo[50];
+    printf("Digite o nome do arquivo de texto para exportar as tarefas!: ");
+    scanf(" %[^\n]s", nomeArquivo);
+
+    FILE *arquivo = fopen(nomeArquivo, "w");
+
+    if (arquivo) {
+      // Filtra tarefas por categoria
+      lista_de_tarefas tarefasFiltradas[100];
+      int encontradas = 0;
+      for (int i = 0; i < numTarefas; i++) {
+        if (strcmp(tarefas[i].categoria, categoria) == 0) {
+          tarefasFiltradas[encontradas++] = tarefas[i];
+        }
+      }
+      // Ordena tarefas por prioridade
+      qsort(tarefasFiltradas, encontradas, sizeof(lista_de_tarefas),
+            compararPrioridade);
+      // Exibe as tarefas filtradas e ordenadas
+      fprintf(arquivo, "Prioridade | Categoria | Estado | Descricao\n");
+      for (int i = 0; i < encontradas; i++) {
+        fprintf(arquivo, "%d | %s | %s | %s\n", tarefasFiltradas[i].prioridade,
+                tarefasFiltradas[i].categoria, tarefasFiltradas[i].estado,
+                tarefasFiltradas[i].descricao);
+      }
+      fclose(arquivo);
+      printf("Tarefas exportadas com sucesso para o arquivo '%s'.\n",
+             nomeArquivo);
+    } else {
+      printf("Erro ao criar o arquivo de texto.\n");
+    }
+  } else {
+    printf("Nao ha tarefas cadastradas para exportar por categoria.\n");
+  }
+}
+
+void exportarPrioridadeCategoria(lista_de_tarefas *tarefas) {
+  int numTarefas = 0;
+  if (numTarefas > 0) {
+    char categoria[50];
+    printf("Digite a categoria desejada para exportar as tarefas: ");
+    scanf(" %[^\n]s", categoria);
+
+    int prioridade;
+    printf("Digite a prioridade desejada para exportar as tarefas: ");
+    scanf("%d", &prioridade);
+
+    char nomeArquivo[50];
+    printf("Digite o nome do arquivo de texto para exportar as tarefas: ");
+    scanf(" %[^\n]s", nomeArquivo);
+
+    FILE *arquivo = fopen(nomeArquivo, "w");
+
+    if (arquivo) {
+      // Filtra tarefas por categoria
+      lista_de_tarefas tarefasFiltradas[100];
+      int encontradas = 0;
+
+      for (int i = 0; i < numTarefas; i++) {
+        if (strcmp(tarefas[i].categoria, categoria) == 0 &&
+            tarefas[i].prioridade == prioridade) {
+          tarefasFiltradas[encontradas++] = tarefas[i];
+        }
+      }
+
+      // Ordena tarefas por prioridade
+      qsort(tarefasFiltradas, encontradas, sizeof(lista_de_tarefas),
+            compararPrioridade);
+
+      // Exibe as tarefas filtradas e ordenadas
+      fprintf(arquivo, "Prioridade | Categoria | Estado | Descricao\n");
+
+      for (int i = 0; i < encontradas; i++) {
+        fprintf(arquivo, "%d | %s | %s | %s\n", tarefasFiltradas[i].prioridade,
+                tarefasFiltradas[i].categoria, tarefasFiltradas[i].estado,
+                tarefasFiltradas[i].descricao);
+      }
+
+      fclose(arquivo);
+
+      printf("Tarefas exportadas com sucesso!!! '%s'.\n", nomeArquivo);
+    } else {
+      printf("Erro ao criar o arquivo de texto.\n");
+    }
+  } else {
+    printf("Nao foram econtradas tarefas cadastradas para exportar por "
+           "prioridade e categoria.\n");
+  }
+}
