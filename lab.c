@@ -1,11 +1,11 @@
-#include "lab.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "lab.h"
+int numTarefas = 0;
 
-lista_de_tarefas tarefas[100];
 
-//função para cadastrar usuario
+// função para cadastrar usuario
 void cadastroT(lista_de_tarefas *tarefas) {
   int numTarefas = 0;
   if (numTarefas < 100) {
@@ -29,7 +29,7 @@ void cadastroT(lista_de_tarefas *tarefas) {
   }
 }
 
-//função para salvar tarefas
+// função para salvar tarefas
 void salvarT(lista_de_tarefas *tarefas) {
   FILE *arquivo = fopen("tarefas_salvas.txt", "w");
   int numTarefas = 0;
@@ -57,7 +57,7 @@ void escrever_arq(lista_de_tarefas *tarefas) {
     fclose(binario);
   }
 }
-//funcao para leitura de arquivo
+// funcao para leitura de arquivo
 int leitura_arquivo(lista_de_tarefas tarefas[], int maxTarefas) {
   FILE *binario = fopen("file.bin", "rb");
   int cont = 0;
@@ -339,7 +339,6 @@ void exportarPorPrioridade(lista_de_tarefas *tarefas) {
     printf("Nao ha tarefas cadastradas para exportar por prioridade.\n");
   }
 }
-
 
 void exportarCto(lista_de_tarefas *tarefas) {
   int numTarefas = 0;
